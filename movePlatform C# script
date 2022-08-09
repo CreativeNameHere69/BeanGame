@@ -1,0 +1,45 @@
+//movePlatform script
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+[ExecuteInEditMode]
+public class MovePlatform : MonoBehaviour
+{
+    //Targets for the moving platform. Use objects in unity as targets.
+    public Transform moveTarget1;
+    public Transform moveTarget2;
+    public Transform currentTarget;
+    public float moveSpeed;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        currentTarget = moveTarget1;
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        //If movePlatform is at moveTarget1,change target to moveTarget2 and vice versa.
+        if (Application.isPlaying)
+        {
+            this.transform.position = Vector3.MoveTowards(transform.position, currentTarget.position, Time.deltaTime * moveSpeed);
+            if (Vector3.Distance(transform.position, currentTarget.position) < 0.01)
+            {
+                if (currentTarget == moveTarget1)
+                {
+                    currentTarget = moveTarget2;
+                }
+                else
+                {
+                    currentTarget = moveTarget1;
+                }
+            }
+        
+        }
+        
+        //Draws a line between the two targets (path the platform will move on)
+        Debug.DrawLine (moveTarget1.position, moveTarget2.position);
+    }
+}
